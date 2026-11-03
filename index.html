@@ -1,481 +1,390 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Radha Krishna Deshpande — ML Engineer & Researcher</title>
-<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Radha Krishna Deshpande – OCR, NLP & Retrieval Researcher</title>
+<meta name="description" content="MS by Research student and engineer at CVIT, IIIT Hyderabad, working on Indic OCR, cross-lingual retrieval and RAG for document archives.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Hanken+Grotesk:wght@400;500;600&family=Noto+Sans+Devanagari:wght@500&display=swap" rel="stylesheet">
 <style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --ink:#0d0d0d;
-  --ink2:#3a3a3a;
-  --ink3:#888;
-  --bg:#f7f5f0;
-  --bg2:#ece9e2;
-  --accent:#1a3a2a;
-  --accent2:#2d6a4f;
-  --highlight:#c8f0d8;
-  --border:#d4d0c8;
-  --mono:'Space Mono',monospace;
-  --sans:'DM Sans',sans-serif;
+  --bg:#f3f5f8;--surface:#fff;--ink:#101828;--ink2:#475467;--line:#dde2ea;
+  --accent:#3b4cca;--accent-ink:#fff;--fix:#ffe08a;--bad:#c2410c;
+  --head:'Bricolage Grotesque',system-ui,sans-serif;--body:'Hanken Grotesk',system-ui,sans-serif;
+  --r:14px;
 }
-html{scroll-behavior:smooth;font-size:16px}
-body{background:var(--bg);color:var(--ink);font-family:var(--sans);overflow-x:hidden;line-height:1.6}
-
-/* ─── CURSOR ─── */
-.cursor{position:fixed;width:10px;height:10px;border-radius:50%;background:var(--accent2);pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform .15s,background .15s;mix-blend-mode:multiply}
-.cursor.big{transform:translate(-50%,-50%) scale(4);background:var(--highlight)}
-
-/* ─── NAV ─── */
-nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.2rem 3rem;display:flex;justify-content:space-between;align-items:center;mix-blend-mode:multiply}
-.nav-logo{font-family:var(--mono);font-size:.85rem;color:var(--accent);letter-spacing:.08em;text-decoration:none}
-.nav-links{display:flex;gap:2rem;list-style:none}
-.nav-links a{font-family:var(--mono);font-size:.75rem;color:var(--ink2);text-decoration:none;letter-spacing:.06em;text-transform:uppercase;transition:color .2s}
-.nav-links a:hover{color:var(--accent2)}
-
-/* ─── HERO ─── */
-#hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;position:relative;overflow:hidden}
-.hero-left{padding:8rem 3rem 4rem;display:flex;flex-direction:column;justify-content:center;position:relative;z-index:2}
-.hero-tag{font-family:var(--mono);font-size:.75rem;color:var(--accent2);letter-spacing:.12em;text-transform:uppercase;margin-bottom:1.5rem;opacity:0;animation:fadeUp .8s .2s forwards}
-.hero-name{font-size:clamp(3rem,7vw,6rem);font-weight:300;line-height:1.0;letter-spacing:-.03em;margin-bottom:1.5rem;opacity:0;animation:fadeUp .8s .4s forwards}
-.hero-name span{font-weight:600;color:var(--accent)}
-.hero-desc{font-size:1.1rem;color:var(--ink2);font-weight:300;max-width:380px;line-height:1.7;margin-bottom:2.5rem;opacity:0;animation:fadeUp .8s .6s forwards}
-.hero-ctas{display:flex;gap:1rem;opacity:0;animation:fadeUp .8s .8s forwards}
-.btn{font-family:var(--mono);font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;padding:.8rem 1.8rem;border-radius:2px;transition:all .2s;cursor:pointer;display:inline-block}
-.btn-solid{background:var(--accent);color:#fff}
-.btn-solid:hover{background:var(--accent2)}
-.btn-outline{border:1.5px solid var(--ink);color:var(--ink)}
-.btn-outline:hover{background:var(--ink);color:var(--bg)}
-.hero-right{position:relative;overflow:hidden}
-.hero-bg-pattern{position:absolute;inset:0;background:var(--bg2);clip-path:polygon(10% 0, 100% 0, 100% 100%, 0% 100%)}
-.hero-grid{position:absolute;inset:0;opacity:.3;background-image:linear-gradient(var(--border) 1px, transparent 1px),linear-gradient(90deg, var(--border) 1px, transparent 1px);background-size:40px 40px}
-.hero-float{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center}
-.hero-initials{font-family:var(--mono);font-size:clamp(5rem,12vw,10rem);font-weight:700;color:var(--accent);opacity:.08;line-height:1;user-select:none}
-.hero-badge{position:absolute;bottom:3rem;right:3rem;background:var(--accent);color:#fff;border-radius:50%;width:120px;height:120px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:var(--mono);font-size:.65rem;letter-spacing:.06em;text-align:center;line-height:1.4;animation:spin 20s linear infinite;cursor:default;user-select:none}
-@keyframes spin{to{transform:rotate(360deg)}}
-.scroll-hint{position:absolute;bottom:2.5rem;left:3rem;font-family:var(--mono);font-size:.7rem;color:var(--ink3);letter-spacing:.1em;display:flex;align-items:center;gap:.7rem;opacity:0;animation:fadeUp .8s 1.2s forwards}
-.scroll-hint::before{content:'';width:30px;height:1px;background:var(--ink3)}
-
-/* ─── SECTIONS ─── */
-section{padding:6rem 3rem}
-.section-label{font-family:var(--mono);font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--accent2);margin-bottom:3rem;display:flex;align-items:center;gap:1rem}
-.section-label::after{content:'';flex:1;height:1px;background:var(--border)}
-.section-title{font-size:clamp(2rem,4vw,3.2rem);font-weight:300;letter-spacing:-.02em;line-height:1.1;margin-bottom:1.5rem}
-.section-title strong{font-weight:600}
-
-/* ─── ABOUT ─── */
-#about{background:var(--bg2)}
-.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start;margin-top:3rem}
-.about-text p{color:var(--ink2);line-height:1.8;margin-bottom:1.2rem;font-size:1.05rem;font-weight:300}
-.about-stats{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
-.stat-card{background:var(--bg);border:1px solid var(--border);padding:1.5rem;border-radius:2px;position:relative;overflow:hidden}
-.stat-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent2)}
-.stat-num{font-family:var(--mono);font-size:2.2rem;font-weight:700;color:var(--accent);line-height:1}
-.stat-label{font-size:.8rem;color:var(--ink3);margin-top:.4rem;font-family:var(--mono);letter-spacing:.04em}
-
-/* ─── SKILLS ─── */
-#skills{background:var(--ink)}
-#skills .section-label{color:#5ec27b}
-#skills .section-title{color:#fff}
-#skills .section-title strong{color:#5ec27b}
-.skills-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:2.5rem}
-.skill-group{background:#1a1a1a;padding:2rem}
-.skill-group-title{font-family:var(--mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:#5ec27b;margin-bottom:1.2rem}
-.skill-tags{display:flex;flex-wrap:wrap;gap:.5rem}
-.skill-tag{font-family:var(--mono);font-size:.72rem;padding:.3rem .7rem;border:1px solid #333;color:#ccc;border-radius:1px;transition:all .2s;cursor:default}
-.skill-tag:hover{border-color:#5ec27b;color:#5ec27b;background:rgba(94,194,123,.05)}
-
-/* ─── EXPERIENCE ─── */
-#experience{background:var(--bg)}
-.exp-item{display:grid;grid-template-columns:200px 1fr;gap:3rem;padding:2.5rem 0;border-bottom:1px solid var(--border);opacity:0;transform:translateY(20px);transition:all .6s}
-.exp-item.visible{opacity:1;transform:none}
-.exp-meta{padding-top:.2rem}
-.exp-period{font-family:var(--mono);font-size:.72rem;color:var(--accent2);letter-spacing:.06em}
-.exp-org{font-size:.85rem;color:var(--ink3);margin-top:.3rem}
-.exp-title{font-size:1.3rem;font-weight:500;margin-bottom:.8rem}
-.exp-points{list-style:none;display:flex;flex-direction:column;gap:.5rem}
-.exp-points li{font-size:.9rem;color:var(--ink2);padding-left:1.2rem;position:relative;font-weight:300;line-height:1.6}
-.exp-points li::before{content:'→';position:absolute;left:0;color:var(--accent2);font-family:var(--mono)}
-
-/* ─── PROJECTS ─── */
-#projects{background:var(--bg2)}
-.projects-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem;margin-top:2rem}
-.project-card{background:var(--bg);border:1px solid var(--border);padding:2rem;border-radius:2px;position:relative;overflow:hidden;transition:transform .3s,box-shadow .3s;cursor:pointer}
-.project-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(26,58,42,.1)}
-.project-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--accent2);transform:scaleX(0);transform-origin:left;transition:transform .3s}
-.project-card:hover::after{transform:scaleX(1)}
-.project-num{font-family:var(--mono);font-size:.65rem;color:var(--ink3);letter-spacing:.08em;margin-bottom:.8rem}
-.project-title{font-size:1.1rem;font-weight:600;margin-bottom:.7rem;line-height:1.3}
-.project-desc{font-size:.875rem;color:var(--ink2);line-height:1.7;font-weight:300;margin-bottom:1.2rem}
-.project-stack{display:flex;flex-wrap:wrap;gap:.4rem}
-.stack-tag{font-family:var(--mono);font-size:.65rem;padding:.2rem .55rem;background:var(--bg2);color:var(--ink3);border-radius:1px;border:1px solid var(--border)}
-.project-link{position:absolute;top:1.5rem;right:1.5rem;font-family:var(--mono);font-size:.7rem;color:var(--accent2);text-decoration:none;opacity:0;transition:opacity .2s}
-.project-card:hover .project-link{opacity:1}
-
-/* ─── PUBLICATION ─── */
-#publications{background:var(--bg)}
-.pub-card{border:1px solid var(--border);padding:2.5rem;position:relative;overflow:hidden;border-radius:2px}
-.pub-card::before{content:'"';font-size:8rem;font-family:Georgia,serif;position:absolute;top:-1.5rem;left:1.5rem;color:var(--highlight);line-height:1;z-index:0}
-.pub-content{position:relative;z-index:1}
-.pub-venue{font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent2);margin-bottom:.8rem}
-.pub-title{font-size:1.4rem;font-weight:500;margin-bottom:.8rem;line-height:1.3}
-.pub-desc{font-size:.9rem;color:var(--ink2);font-weight:300;line-height:1.7;max-width:700px}
-.pub-link{display:inline-block;margin-top:1.5rem;font-family:var(--mono);font-size:.75rem;color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent);padding-bottom:2px;letter-spacing:.06em;text-transform:uppercase}
-.pub-spacer {margin: 24px 0;border-top: 1px solid rgba(255, 255, 255, 0.15);}
-/* ─── CONTACT ─── */
-#contact{background:var(--accent);color:#fff;text-align:center;padding:8rem 3rem}
-#contact .section-label{color:rgba(255,255,255,.5);justify-content:center}
-#contact .section-label::after{display:none}
-#contact .section-title{color:#fff;margin-bottom:1rem}
-#contact p{color:rgba(255,255,255,.7);max-width:500px;margin:0 auto 3rem;font-weight:300}
-.contact-links{display:flex;justify-content:center;gap:1.5rem;flex-wrap:wrap}
-.contact-link{font-family:var(--mono);font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;color:#fff;text-decoration:none;border:1.5px solid rgba(255,255,255,.3);padding:.8rem 1.8rem;border-radius:2px;transition:all .2s}
-.contact-link:hover{background:#fff;color:var(--accent)}
-.contact-email{font-family:var(--mono);font-size:1rem;color:rgba(255,255,255,.6);display:block;margin-top:2rem}
-
-/* ─── FOOTER ─── */
-footer{background:var(--ink);color:#444;text-align:center;padding:2rem;font-family:var(--mono);font-size:.7rem;letter-spacing:.06em}
-
-/* ─── ANIMATIONS ─── */
-@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
-.reveal{opacity:0;transform:translateY(30px);transition:opacity .7s,transform .7s}
-.reveal.visible{opacity:1;transform:none}
-
-/* ─── FLOATING DOTS ─── */
-.dots{position:absolute;inset:0;pointer-events:none;z-index:0;overflow:hidden}
-.dot{position:absolute;border-radius:50%;background:var(--accent2);opacity:.06;animation:float linear infinite}
-@keyframes float{0%{transform:translateY(100%)}100%{transform:translateY(-100%)}}
-
-/* ─── TYPEWRITER ─── */
-.typewriter{border-right:.1em solid var(--accent);white-space:nowrap;overflow:hidden;animation:typing 2.5s steps(40,end) 1s forwards, blink .75s step-end infinite;width:0}
-@keyframes typing{to{width:100%}}
-@keyframes blink{50%{border-color:transparent}}
-
-@media(max-width:768px){
-  #hero{grid-template-columns:1fr}
-  .hero-right{display:none}
-  nav{padding:1rem 1.5rem}
-  .nav-links{gap:1rem}
-  section{padding:4rem 1.5rem}
-  .about-grid{grid-template-columns:1fr;gap:2rem}
-  .skills-grid{grid-template-columns:1fr}
-  .projects-grid{grid-template-columns:1fr}
-  .exp-item{grid-template-columns:1fr;gap:1rem}
+:root[data-theme=dark]{
+  --bg:#0e1117;--surface:#161b24;--ink:#eef1f6;--ink2:#a3adbd;--line:#262d3a;
+  --accent:#8e9bff;--accent-ink:#0e1117;--fix:#5b4a0a;--bad:#fb923c;
 }
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:5rem}
+body{background:var(--bg);color:var(--ink);font:400 1.0625rem/1.65 var(--body);-webkit-font-smoothing:antialiased}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:6px}
+.wrap{max-width:62rem;margin:0 auto;padding:0 1.5rem}
+h1,h2,h3{font-family:var(--head);line-height:1.1;letter-spacing:-.02em}
+h2{font-size:clamp(1.8rem,4vw,2.5rem);margin-bottom:2rem}
+section{padding:5rem 0}
+.skip{position:absolute;left:-999px}.skip:focus{left:1rem;top:1rem;background:var(--accent);color:var(--accent-ink);padding:.5rem 1rem;border-radius:8px;z-index:200}
+#progress{position:fixed;top:0;left:0;height:3px;width:0;background:var(--accent);z-index:150}
+
+/* nav */
+header{position:sticky;top:0;z-index:100;background:color-mix(in srgb,var(--bg) 85%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.bar{display:flex;align-items:center;justify-content:space-between;height:4rem}
+.logo{font:700 1.15rem var(--head);text-decoration:none}
+nav ul{display:flex;gap:.25rem;list-style:none}
+nav a{display:block;padding:.45rem .8rem;border-radius:999px;text-decoration:none;font-size:.95rem;color:var(--ink2);font-weight:500}
+nav a:hover{color:var(--ink)}
+nav a.on{background:var(--accent);color:var(--accent-ink)}
+.tools{display:flex;gap:.5rem;align-items:center}
+.icon-btn{background:none;border:1px solid var(--line);color:var(--ink);width:2.4rem;height:2.4rem;border-radius:50%;cursor:pointer;font-size:1rem}
+.icon-btn:hover{border-color:var(--accent)}
+#menu{display:none}
+
+/* hero */
+.hero{padding:5rem 0 4rem}
+.hero-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:3.5rem;align-items:center}
+.status{display:inline-flex;gap:.5rem;align-items:center;font-size:.9rem;color:var(--ink2);border:1px solid var(--line);background:var(--surface);padding:.3rem .8rem;border-radius:999px;margin-bottom:1.5rem}
+.status i{width:.55rem;height:.55rem;border-radius:50%;background:#22a06b}
+h1{font-size:clamp(2.6rem,6vw,4.4rem);margin-bottom:1.25rem}
+.lede{color:var(--ink2);max-width:34rem;margin-bottom:2rem}
+.cta{display:flex;flex-wrap:wrap;gap:.75rem}
+.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.75rem 1.3rem;border-radius:10px;font-weight:600;text-decoration:none;border:1px solid var(--line);background:var(--surface);cursor:pointer;font:600 1rem var(--body);color:var(--ink)}
+.btn.main{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.btn:hover{transform:translateY(-1px)}
+.facts{display:flex;gap:2.2rem;flex-wrap:wrap;margin-top:2.5rem}
+.facts b{display:block;font:700 1.9rem var(--head)}
+.facts span{font-size:.9rem;color:var(--ink2)}
+
+/* the scan: memorable moment */
+.scan{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:1.5rem;box-shadow:0 20px 50px -30px rgba(16,24,40,.35)}
+.scan-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;font-size:.9rem;color:var(--ink2)}
+.sw{display:inline-flex;border:1px solid var(--line);border-radius:999px;padding:3px}
+.sw button{border:0;background:none;padding:.3rem .8rem;border-radius:999px;cursor:pointer;font:500 .85rem var(--body);color:var(--ink2)}
+.sw button[aria-pressed=true]{background:var(--accent);color:var(--accent-ink)}
+.scan p{font-size:1.15rem;line-height:1.9;min-height:9.5rem}
+.scan p+p{font-family:'Noto Sans Devanagari',var(--body);margin-top:.5rem;min-height:0}
+.scan .bad{color:var(--bad);text-decoration:wavy underline;text-decoration-thickness:1px;text-underline-offset:4px}
+.scan .ok{background:var(--fix);border-radius:4px;padding:0 .2rem}
+.scan small{display:block;margin-top:1rem;color:var(--ink2);font-size:.88rem}
+
+/* about */
+.two{display:grid;grid-template-columns:1.2fr 1fr;gap:3.5rem}
+.two p{color:var(--ink2);margin-bottom:1rem}
+.edu{display:grid;gap:1rem}
+.edu div{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:1.2rem 1.3rem}
+.edu b{font-family:var(--head);font-size:1.1rem;display:block}
+.edu span{color:var(--ink2);font-size:.95rem}
+
+/* timeline */
+.tl{border-left:2px solid var(--line);margin-left:.5rem}
+.job{position:relative;padding:0 0 2.5rem 2rem}
+.job::before{content:'';position:absolute;left:-.55rem;top:.45rem;width:.9rem;height:.9rem;border-radius:50%;background:var(--bg);border:3px solid var(--accent)}
+.job time{font-size:.9rem;color:var(--ink2)}
+.job h3{font-size:1.3rem;margin:.2rem 0}
+.job .org{color:var(--accent);font-weight:600;margin-bottom:.6rem}
+.job ul{padding-left:1.1rem;color:var(--ink2)}
+.job li{margin-bottom:.35rem}
+.job details summary{cursor:pointer;color:var(--accent);font-weight:600;margin-top:.6rem}
+
+/* projects */
+.chips{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.5rem}
+.chip{border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:.4rem 1rem;border-radius:999px;cursor:pointer;font:500 .95rem var(--body)}
+.chip[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.proj{border-top:1px solid var(--line)}
+.proj:last-child{border-bottom:1px solid var(--line)}
+.proj[hidden]{display:none}
+.proj>button{width:100%;display:flex;justify-content:space-between;align-items:center;gap:1rem;background:none;border:0;padding:1.4rem 0;cursor:pointer;text-align:left;color:var(--ink)}
+.proj h3{font-size:1.35rem}
+.proj .tags{color:var(--ink2);font-size:.9rem;margin-top:.25rem}
+.proj .pm{font-size:1.5rem;transition:transform .25s;flex:none}
+.proj>button[aria-expanded=true] .pm{transform:rotate(45deg)}
+.proj .body{display:none;padding:0 0 1.5rem;max-width:44rem;color:var(--ink2)}
+.proj .body.open{display:block}
+.proj .body p{margin-bottom:.8rem}
+.proj .body a{color:var(--accent);font-weight:600}
+.stackrow{display:flex;gap:.4rem;flex-wrap:wrap;margin:.5rem 0 .8rem}
+.stackrow span{font-size:.82rem;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:.1rem .55rem;color:var(--ink2)}
+
+/* publications */
+.pub{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:1.6rem;margin-bottom:1rem}
+.pub .v{color:var(--accent);font-weight:600;font-size:.95rem}
+.pub h3{font-size:1.35rem;margin:.3rem 0 .6rem}
+.pub p{color:var(--ink2);max-width:46rem}
+.pub .links{display:flex;gap:1.2rem;margin-top:1rem;flex-wrap:wrap}
+.pub .links a{font-weight:600;color:var(--accent)}
+
+/* skills */
+.skills{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem 3rem}
+.skills dt{font:700 1.05rem var(--head);margin-bottom:.5rem}
+.skills dd{display:flex;flex-wrap:wrap;gap:.4rem}
+.skills dd span{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:.2rem .7rem;font-size:.92rem}
+.ach{margin-top:3rem;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:1.3rem 1.5rem}
+.ach b{font-family:var(--head)}.ach p{color:var(--ink2)}
+
+/* contact */
+#contact .box{background:var(--accent);color:var(--accent-ink);border-radius:22px;padding:3.5rem 2.5rem}
+#contact h2{margin-bottom:.8rem}
+#contact p{max-width:34rem;opacity:.9;margin-bottom:1.8rem}
+#contact .btn{background:var(--accent-ink);color:var(--accent);border-color:transparent}
+#contact .btn.ghost{background:transparent;color:var(--accent-ink);border-color:currentColor}
+footer{padding:2rem 0 3rem;color:var(--ink2);font-size:.9rem}
+
+.reveal{opacity:0;transform:translateY(14px);transition:opacity .5s,transform .5s}
+.reveal.in{opacity:1;transform:none}
+@media(max-width:820px){
+  .hero-grid,.two,.skills{grid-template-columns:1fr}
+  nav{display:none;position:absolute;top:4rem;left:0;right:0;background:var(--bg);border-bottom:1px solid var(--line);padding:.75rem 1.5rem}
+  nav.open{display:block}nav ul{flex-direction:column}
+  #menu{display:inline-block}
+  section{padding:3.5rem 0}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}.reveal{opacity:1;transform:none}}
+@media print{header,#progress,.scan-top .sw{display:none}.reveal{opacity:1;transform:none}}
 </style>
 </head>
 <body>
+<a class="skip" href="#main">Skip to content</a>
+<div id="progress"></div>
 
-<div class="cursor" id="cursor"></div>
-
-<!-- NAV -->
-<nav>
-  <a href="#" class="nav-logo">RKD_</a>
-  <ul class="nav-links">
-    <li><a href="#about">About</a></li>
-    <li><a href="#skills">Skills</a></li>
-    <li><a href="#experience">Work</a></li>
-    <li><a href="#projects">Projects</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
-</nav>
-
-<!-- HERO -->
-<section id="hero">
-  <div class="hero-left">
-    <span class="hero-tag">ML Engineer · Researcher · IIIT Hyderabad</span>
-    <h1 class="hero-name">Radha<br/>Krishna<br/><span>Deshpande</span></h1>
-    <p class="hero-desc">Building intelligent systems at the intersection of OCR, NLP, and information retrieval. MS by Research @ IIIT-H.</p>
-    <div class="hero-ctas">
-      <a href="https://github.com/radhakrishnadeshpande" class="btn btn-solid" target="_blank">GitHub →</a>
-      <a href="#contact" class="btn btn-outline">Get in Touch</a>
+<header>
+  <div class="wrap bar">
+    <a class="logo" href="#top">Radha Krishna Deshpande</a>
+    <nav id="nav" aria-label="Main"><ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#publications">Papers</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul></nav>
+    <div class="tools">
+      <button class="icon-btn" id="theme" aria-label="Switch colour theme" title="Switch theme">◐</button>
+      <button class="icon-btn" id="menu" aria-label="Open menu" aria-expanded="false" aria-controls="nav">☰</button>
     </div>
-    <div class="scroll-hint">Scroll to explore</div>
   </div>
-  <div class="hero-right">
-    <div class="hero-bg-pattern"></div>
-    <div class="hero-grid"></div>
-    <div class="hero-float">
-      <div class="hero-initials">RKD</div>
+</header>
+
+<main id="main">
+<section class="hero" id="top">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="status"><i></i> Open to research collaborations and AI/ML roles</span>
+      <h1>I teach machines to read messy, multilingual documents.</h1>
+      <p class="lede">I'm Radha Krishna, an MS by Research student and engineer at CVIT, IIIT Hyderabad. I work on Indic OCR, cross-lingual retrieval and RAG for historical archives.</p>
+      <div class="cta">
+        <a class="btn main" href="#projects">See my work</a>
+        <a class="btn" href="Resume_RKD.pdf" download>Download résumé</a>
+        <a class="btn" href="#contact">Get in touch</a>
+      </div>
+      <div class="facts">
+        <div><b>2</b><span>papers: ICVGIP '25, CVIP '26</span></div>
+        <div><b>200,000</b><span>archive pages in my RAG study</span></div>
+        <div><b>3</b><span>languages: Hindi, English, Punjabi</span></div>
+      </div>
     </div>
-    <div class="hero-badge">
-      MS·RESEARCH · IIIT-H · 2025–2027 · ML·ENGINEER ·
+
+    <div class="scan reveal" aria-label="Interactive example of OCR noise being corrected">
+      <div class="scan-top">
+        <span>Scanned page, line 14</span>
+        <div class="sw" role="group" aria-label="View">
+          <button id="vRaw" aria-pressed="true">Raw OCR</button>
+          <button id="vFix" aria-pressed="false">Cleaned</button>
+        </div>
+      </div>
+      <p id="en"></p>
+      <p id="hi" lang="hi"></p>
+      <small id="cap"></small>
     </div>
-    <!-- floating dots -->
-    <div class="dots" id="dots"></div>
   </div>
 </section>
 
-<!-- ABOUT -->
 <section id="about">
-  <div class="section-label">01 — About</div>
-  <div class="about-grid">
-    <div class="about-text reveal">
-      <h2 class="section-title">I build ML systems that <strong>read, understand</strong> and retrieve.</h2>
-      <p>Currently pursuing MS by Research in Computer Science at IIIT Hyderabad, specialising in OCR, multilingual document understanding, and cross-lingual information retrieval.</p>
-      <p>At CVIT (Centre for Visual Information Technology), I work on fine-tuning OCR models, building large-scale document pipelines, and designing Elasticsearch-backed retrieval systems that handle noisy, multilingual text at scale.</p>
-      <p>I published at ICVGIP-2025 on label-free adaptation of Indic OCR systems — tackling the problem of low-resource script recognition without annotated training data.</p>
+  <div class="wrap two">
+    <div class="reveal">
+      <h2>Making archives searchable, in the languages they were written in</h2>
+      <p>I'm pursuing an MS by Research in Computer Science and Engineering at IIIT Hyderabad, focused on OCR, document layout understanding and cross-lingual information retrieval.</p>
+      <p>At CVIT I fine-tune CRNN-based OCR models, build high-throughput pipelines that process thousands of document images, and design Elasticsearch systems that retrieve from noisy OCR output.</p>
+      <p>My latest work combines layout segmentation, multi-script OCR and agentic RAG to answer questions over the 200,000-page Punjab Vidhan Sabha archive.</p>
     </div>
-    <div class="about-stats reveal">
-      <div class="stat-card">
-        <div class="stat-num">15+</div>
-        <div class="stat-label">Public Repos</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-num">2+</div>
-        <div class="stat-label">Years at CVIT</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-num">3</div>
-        <div class="stat-label">Languages in CLiGRA Pipeline</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-num">10×</div>
-        <div class="stat-label">RookDB Speedup</div>
-      </div>
+    <div class="edu reveal">
+      <div><b>MS by Research, CSE</b><span>IIIT Hyderabad · July 2025 – present</span></div>
+      <div><b>B.Tech, DTDP (IT specialization)</b><span>Jawaharlal Nehru Architecture and Fine Arts University, Hyderabad · 2019 – 2023</span></div>
     </div>
   </div>
 </section>
 
-<!-- SKILLS -->
-<section id="skills">
-  <div class="section-label">02 — Skills</div>
-  <h2 class="section-title reveal">The <strong>stack</strong> I work with</h2>
-  <div class="skills-grid reveal">
-    <div class="skill-group">
-      <div class="skill-group-title">ML & AI</div>
-      <div class="skill-tags">
-        <span class="skill-tag">PyTorch</span>
-        <span class="skill-tag">TensorFlow</span>
-        <span class="skill-tag">CRNN / OCR</span>
-        <span class="skill-tag">Computer Vision</span>
-        <span class="skill-tag">NLP</span>
-        <span class="skill-tag">Fine-Tuning</span>
-        <span class="skill-tag">FAISS</span>
-        <span class="skill-tag">Vector DBs</span>
-        <span class="skill-tag">Self-supervised</span>
-      </div>
-    </div>
-    <div class="skill-group">
-      <div class="skill-group-title">Languages</div>
-      <div class="skill-tags">
-        <span class="skill-tag">Python</span>
-        <span class="skill-tag">Rust</span>
-        <span class="skill-tag">C / C++</span>
-        <span class="skill-tag">Java</span>
-        <span class="skill-tag">SQL</span>
-        <span class="skill-tag">HTML / CSS</span>
-        <span class="skill-tag">Bash</span>
-      </div>
-    </div>
-    <div class="skill-group">
-      <div class="skill-group-title">Infra & Backend</div>
-      <div class="skill-tags">
-        <span class="skill-tag">Elasticsearch</span>
-        <span class="skill-tag">Django REST</span>
-        <span class="skill-tag">Flask</span>
-        <span class="skill-tag">Docker</span>
-        <span class="skill-tag">AWS</span>
-        <span class="skill-tag">MongoDB</span>
-        <span class="skill-tag">MySQL</span>
-        <span class="skill-tag">Git</span>
-        <span class="skill-tag">OpenCV</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- EXPERIENCE -->
 <section id="experience">
-  <div class="section-label">03 — Experience</div>
-  <h2 class="section-title reveal">Where I've <strong>built</strong> things</h2>
-
-  <div class="exp-item">
-    <div class="exp-meta">
-      <div class="exp-period">Aug 2024 — Present</div>
-      <div class="exp-org">CVIT, IIIT Hyderabad</div>
-    </div>
-    <div>
-      <div class="exp-title">Project Technical Personnel (L1), Junior Engineer</div>
-      <ul class="exp-points">
-        <li>Fine-tuned CRNN-based OCR models on domain-specific data, improving accuracy on diverse and noisy inputs</li>
-        <li>Built high-throughput pipelines for large-scale OCR on thousands of document images</li>
-        <li>Designed Elasticsearch-based search with custom analyzers and schema tuning for OCR output retrieval</li>
-        <li>Reduced inference latency through architecture-level optimizations and batch processing</li>
-        <li>Integrated OCR systems and search backends into production research applications</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="exp-item">
-    <div class="exp-meta">
-      <div class="exp-period">May 2024 — Aug 2024</div>
-      <div class="exp-org">CVIT, IIIT Hyderabad</div>
-    </div>
-    <div>
-      <div class="exp-title">Junior Engineer</div>
-      <ul class="exp-points">
-        <li>Developed efficient web scraping scripts to extract and organize large datasets for model training</li>
-        <li>Built and fine-tuned ML models for specific tasks via iterative testing and pre-trained model adaptation</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="exp-item">
-    <div class="exp-meta">
-      <div class="exp-period">Feb 2024 — May 2024</div>
-      <div class="exp-org">Chegg India (Remote)</div>
-    </div>
-    <div>
-      <div class="exp-title">Subject Matter Expert (Part-time)</div>
-      <ul class="exp-points">
-        <li>Provided expert guidance in CSE topics including open-source software and computer networks</li>
-        <li>Assisted students with complex problem-solving and in-depth understanding of coursework</li>
-      </ul>
+  <div class="wrap">
+    <h2 class="reveal">Experience</h2>
+    <div class="tl">
+      <article class="job reveal">
+        <time>August 2024 – present</time>
+        <h3>Project Technical Personnel (L1), Junior Engineer</h3>
+        <div class="org">Centre for Visual Information Technology, IIIT Hyderabad</div>
+        <ul>
+          <li>Fine-tuned CRNN-based OCR models on domain-specific data, improving accuracy on diverse and noisy inputs.</li>
+          <li>Built high-throughput pipelines that run OCR over thousands of document images.</li>
+          <li>Designed Elasticsearch search with custom analyzers and schema tuning for OCR output.</li>
+          <li>Cut inference latency with architecture-level optimizations and batch processing.</li>
+        </ul>
+        <details><summary>More responsibilities</summary><ul style="margin-top:.5rem">
+          <li>Automated data preprocessing, training, evaluation and deployment workflows.</li>
+          <li>Integrated OCR systems and search backends into research applications used by other teams.</li>
+          <li>Maintained technical documentation and modular codebases for reproducibility and handoff.</li>
+        </ul></details>
+      </article>
+      <article class="job reveal">
+        <time>May – August 2024</time>
+        <h3>Junior Engineer</h3>
+        <div class="org">Centre for Visual Information Technology, IIIT Hyderabad</div>
+        <ul>
+          <li>Wrote web scraping scripts that collected and organized large datasets for model training.</li>
+          <li>Built and fine-tuned ML models, adapting pre-trained models to specific problems.</li>
+        </ul>
+      </article>
+      <article class="job reveal">
+        <time>February – May 2024</time>
+        <h3>Subject Matter Expert (part-time, remote)</h3>
+        <div class="org">Chegg India</div>
+        <ul><li>Helped students with CSE coursework, including open-source software and computer networks.</li></ul>
+      </article>
     </div>
   </div>
 </section>
 
-<!-- PROJECTS -->
 <section id="projects">
-  <div class="section-label">04 — Projects</div>
-  <h2 class="section-title reveal">Selected <strong>work</strong></h2>
-  <div class="projects-grid reveal">
-
-    <div class="project-card">
-      <a href="" class="project-link" target="_blank">↗ View</a>
-      <div class="project-num">01</div>
-      <div class="project-title">CLiGRA — Cross-lingual Multilingual Archive Retrieval</div>
-      <div class="project-desc">Hybrid retrieval and QA pipeline integrating lexicon-based search with LLM reasoning for Hindi, English, and Punjabi document archives. Reduces hallucination via grounded, cross-lingual answers.</div>
-      <div class="project-stack">
-        <span class="stack-tag">Python</span>
-        <span class="stack-tag">FAISS</span>
-        <span class="stack-tag">Django REST</span>
-        <span class="stack-tag">NLP</span>
-        <span class="stack-tag">Vector DBs</span>
-        <span class="stack-tag">OCR</span>
+  <div class="wrap">
+    <h2 class="reveal">Projects</h2>
+    <div class="chips" role="group" aria-label="Filter projects">
+      <button class="chip" data-f="all" aria-pressed="true">All</button>
+      <button class="chip" data-f="nlp" aria-pressed="false">Retrieval and NLP</button>
+      <button class="chip" data-f="cv" aria-pressed="false">Vision</button>
+      <button class="chip" data-f="sys" aria-pressed="false">Systems</button>
+    </div>
+    <div id="plist">
+      <div class="proj" data-c="nlp">
+        <button aria-expanded="true"><span><h3>CLiGRA: retrieval across Hindi, English and Punjabi archives</h3><div class="tags">Cross-lingual RAG · OCR · FAISS</div></span><span class="pm">+</span></button>
+        <div class="body open">
+          <p>Traditional search fails on these archives because of OCR noise, language mismatch and missing context. CLiGRA combines lexicon-based search with LLM reasoning: it finds documents by keyword and semantic similarity, then answers in the language of the query, grounded in what it retrieved.</p>
+          <div class="stackrow"><span>Python</span><span>FAISS</span><span>Vector databases</span><span>Django REST</span><span>NLTK</span></div>
+          <a href="https://radhakrishnadeshpande.github.io/readingbeyondocrnoise/" target="_blank" rel="noopener">Project page</a>
+        </div>
+      </div>
+      <div class="proj" data-c="sys">
+        <button aria-expanded="false"><span><h3>RookDB: a faster projection operator in Rust</h3><div class="tags">Databases · Parallelism</div></span><span class="pm">+</span></button>
+        <div class="body">
+          <p>A database projection operator with adaptive column reordering and four execution strategies (eager, streaming-batched, parallel-hybrid and columnar-staging). On billion-row workloads it ran about 10× faster with 256× lower memory use.</p>
+          <div class="stackrow"><span>Rust</span><span>Rayon</span><span>SIMD</span></div>
+          <a href="https://github.com/radhakrishnadeshpande/RookDB/tree/projection" target="_blank" rel="noopener">View on GitHub</a>
+        </div>
+      </div>
+      <div class="proj" data-c="cv">
+        <button aria-expanded="false"><span><h3>Tamil handwritten character recognition</h3><div class="tags">CNN · Streamlit</div></span><span class="pm">+</span></button>
+        <div class="body">
+          <p>A CNN trained on the uTHCD dataset to recognise 156 Tamil character classes. The Streamlit app lets you draw or upload a character and returns the Unicode prediction with confidence scores, plus a practice mode.</p>
+          <div class="stackrow"><span>Python</span><span>OpenCV</span><span>NumPy</span><span>scikit-image</span></div>
+          <a href="https://github.com/Saumya-svm/smai-project" target="_blank" rel="noopener">View on GitHub</a>
+        </div>
+      </div>
+      <div class="proj" data-c="cv">
+        <button aria-expanded="false"><span><h3>Detecting gravitational lensing features</h3><div class="tags">Image processing · Astronomy</div></span><span class="pm">+</span></button>
+        <div class="body">
+          <p>An automated pipeline that finds Einstein rings and arc-like lensing structures in noisy, low-brightness astronomical images, using background subtraction, edge detection, the Hough Transform and contour-based geometry.</p>
+          <div class="stackrow"><span>Python</span><span>OpenCV</span><span>Hough Transform</span></div>
+          <a href="https://github.com/radhakrishnadeshpande/dip_project" target="_blank" rel="noopener">View on GitHub</a>
+        </div>
       </div>
     </div>
-
-    <div class="project-card">
-      <a href="https://github.com/radhakrishnadeshpande/RookDB/tree/projection" class="project-link" target="_blank">↗ GitHub</a>
-      <div class="project-num">02</div>
-      <div class="project-title">RookDB — Optimized Projection Operator</div>
-      <div class="project-desc">A database projection operator in Rust with adaptive column reordering. Achieves 10× speedup and 256× lower memory usage on billion-row workloads using EAGER, STREAMING-BATCHED, PARALLEL-HYBRID, and COLUMNAR-STAGING strategies.</div>
-      <div class="project-stack">
-        <span class="stack-tag">Rust</span>
-        <span class="stack-tag">Rayon</span>
-        <span class="stack-tag">SIMD</span>
-        <span class="stack-tag">Parallelization</span>
-      </div>
-    </div>
-
-    <div class="project-card">
-      <a href="https://github.com/Saumya-svm/smai-project" class="project-link" target="_blank">↗ GitHub</a>
-      <div class="project-num">03</div>
-      <div class="project-title">Tamil Handwritten Character Recognition</div>
-      <div class="project-desc">CNN-based recognition for 156 Tamil character classes trained on uTHCD dataset. Interactive Streamlit interface with freehand drawing canvas, image upload, and confidence scores.</div>
-      <div class="project-stack">
-        <span class="stack-tag">Python</span>
-        <span class="stack-tag">CNN</span>
-        <span class="stack-tag">OpenCV</span>
-        <span class="stack-tag">Streamlit</span>
-        <span class="stack-tag">scikit-image</span>
-      </div>
-    </div>
-
-    <div class="project-card">
-      <a href="https://github.com/radhakrishnadeshpande/dip_project" class="project-link" target="_blank">↗ GitHub</a>
-      <div class="project-num">04</div>
-      <div class="project-title">Gravitational Lensing Feature Detection</div>
-      <div class="project-desc">Automated image-processing pipeline for detecting Einstein rings and arc-like lensing structures from astronomical images using Hough Transform and contour-based geometric analysis.</div>
-      <div class="project-stack">
-        <span class="stack-tag">Python</span>
-        <span class="stack-tag">OpenCV</span>
-        <span class="stack-tag">Hough Transform</span>
-        <span class="stack-tag">scikit-image</span>
-      </div>
-    </div>
-
   </div>
 </section>
 
-<!-- PUBLICATION -->
 <section id="publications">
-  <div class="section-label">05 — Publication</div>
-  <h2 class="section-title reveal">Research <strong>output</strong></h2>
-  <div class="pub-card reveal">
-    <div class="pub-content">
-      <div class="pub-venue">ICVGIP 2025</div>
-      <div class="pub-title">Label-Free Adaptation of Indic Printed OCR</div>
-      <div class="pub-desc">Proposed a self-supervised, label-free adaptation approach to improve OCR performance for low-resource Indic scripts without relying on annotated training data. Focused on domain adaptation and self-supervised learning to improve recognition accuracy for multilingual Indic printed text systems.</div>
-      <a href="https://cvit.iiit.ac.in/images/ConferencePapers/2025/No_Labels_No_Problem_Self_Supervised_Learning_for_Indic_Printed_OCR.pdf" class="pub-link" target="_blank">Read Paper →</a>
-      <div class="pub-spacer"></div>
-      <div class="pub-venue">CVIP 2026</div>
-      <div class="pub-title">Reading Beyond OCR Noise: Robust Cross-Lingual RAG for Legislative Archives</div>
-      <div class="pub-desc">Proposed an end-to-end framework integrating layout segmentation, multi-script OCR, and agentic RAG to improve information retrieval from degraded historical parliamentary documents. Focused on handling OCR errors, complex layouts, and multilingual text in the 200,000-page Punjab Vidhan Sabha archive.</div>
-      <a href="https://arxiv.org/abs/2610.35240v1" class="pub-link" target="_blank">Read Paper →</a>
-      <a href="https://radhakrishnadeshpande.github.io/readingbeyondocrnoise/" class="pub-link" target="_blank" rel="noopener noreferrer">Link to the project→</a>
-    </div>
+  <div class="wrap">
+    <h2 class="reveal">Publications</h2>
+    <article class="pub reveal">
+      <div class="v">CVIP 2026</div>
+      <h3>Reading Beyond OCR Noise: Robust Cross-Lingual RAG for Legislative Archives</h3>
+      <p>An end-to-end framework combining vision-based layout segmentation, multi-script OCR and agentic RAG to answer questions over degraded historical parliamentary documents. Evaluated on the 200,000-page Punjab Vidhan Sabha archive.</p>
+      <div class="links"><a href="https://arxiv.org/abs/2610.35240v1" target="_blank" rel="noopener">Read the paper</a><a href="https://radhakrishnadeshpande.github.io/readingbeyondocrnoise/" target="_blank" rel="noopener">Project page</a></div>
+    </article>
+    <article class="pub reveal">
+      <div class="v">ICVGIP 2025</div>
+      <h3>Label-Free Adaptation of Indic Printed OCR</h3>
+      <p>A self-supervised adaptation method that improves OCR for low-resource Indic scripts without annotated training data, using domain adaptation to lift recognition accuracy on multilingual printed text.</p>
+      <div class="links"><a href="https://cvit.iiit.ac.in/images/ConferencePapers/2025/No_Labels_No_Problem_Self_Supervised_Learning_for_Indic_Printed_OCR.pdf" target="_blank" rel="noopener">Read the paper</a></div>
+    </article>
   </div>
 </section>
 
-<!-- CONTACT -->
+<section id="skills">
+  <div class="wrap">
+    <h2 class="reveal">Skills</h2>
+    <dl class="skills reveal">
+      <div><dt>Machine learning and vision</dt><dd><span>PyTorch</span><span>TensorFlow</span><span>OpenCV</span><span>CRNN / OCR</span><span>Fine-tuning</span><span>Deep learning</span></dd></div>
+      <div><dt>Languages</dt><dd><span>Python</span><span>Rust</span><span>C</span><span>C++</span><span>Java</span><span>SQL</span><span>HTML / CSS</span></dd></div>
+      <div><dt>Search and data</dt><dd><span>Elasticsearch</span><span>FAISS</span><span>Vector databases</span><span>MongoDB</span><span>MySQL</span></dd></div>
+      <div><dt>Backend and tools</dt><dd><span>Django REST</span><span>Flask</span><span>Docker</span><span>AWS</span><span>Git / GitHub</span></dd></div>
+      <div><dt>Core CS</dt><dd><span>Data structures and algorithms</span><span>Computer networks</span><span>DBMS</span><span>Operating systems</span></dd></div>
+      <div><dt>Ways of working</dt><dd><span>Project management</span><span>Communication</span><span>Leadership</span><span>Problem solving</span></dd></div>
+    </dl>
+    <div class="ach reveal"><b>Pre-Regional Math Olympiad</b><p>Qualified during the second year of Intermediate studies.</p></div>
+  </div>
+</section>
+
 <section id="contact">
-  <div class="section-label">06 — Contact</div>
-  <h2 class="section-title">Let's <strong>build</strong> something together</h2>
-  <p>Open to research collaborations, interesting ML problems, and full-time opportunities in AI/ML engineering.</p>
-  <div class="contact-links">
-    <a href="mailto:radhakrishnadeshpande@gmail.com" class="contact-link">Email</a>
-    <a href="https://linkedin.com/in/radha-krishna-deshpande" class="contact-link" target="_blank">LinkedIn</a>
-    <a href="https://github.com/radhakrishnadeshpande" class="contact-link" target="_blank">GitHub</a>
-  </div>
-  <span class="contact-email">radhakrishnadeshpande@gmail.com</span>
+  <div class="wrap"><div class="box reveal">
+    <h2>Have a hard document problem?</h2>
+    <p>I'm open to research collaborations, interesting ML problems and full-time AI/ML engineering roles. Email is the fastest way to reach me.</p>
+    <div class="cta">
+      <button class="btn" id="copy">Copy email address</button>
+      <a class="btn ghost" href="mailto:radhakrishnadeshpande@gmail.com">Write an email</a>
+      <a class="btn ghost" href="https://linkedin.com/in/radha-krishna-deshpande" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="btn ghost" href="https://github.com/radhakrishnadeshpande" target="_blank" rel="noopener">GitHub</a>
+    </div>
+    <span id="msg" role="status" style="display:block;margin-top:1rem;min-height:1.5rem"></span>
+  </div></div>
 </section>
+</main>
 
-<footer>
-  © 2026 Radha Krishna Deshpande · Built with intention · IIIT Hyderabad
-</footer>
+<footer><div class="wrap">© 2026 Radha Krishna Deshpande · IIIT Hyderabad</div></footer>
 
 <script>
-// Cursor
-const cursor = document.getElementById('cursor');
-document.addEventListener('mousemove', e => {
-  cursor.style.left = e.clientX + 'px';
-  cursor.style.top = e.clientY + 'px';
-});
-document.querySelectorAll('a,button,.project-card,.skill-tag').forEach(el => {
-  el.addEventListener('mouseenter', () => cursor.classList.add('big'));
-  el.addEventListener('mouseleave', () => cursor.classList.remove('big'));
-});
-
-// Floating dots
-const dotsEl = document.getElementById('dots');
-for(let i=0;i<18;i++){
-  const d=document.createElement('div');
-  d.className='dot';
-  const size = Math.random()*60+20;
-  d.style.cssText=`width:${size}px;height:${size}px;left:${Math.random()*100}%;bottom:-${size}px;animation-duration:${Math.random()*20+15}s;animation-delay:${Math.random()*20}s`;
-  dotsEl.appendChild(d);
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+// theme
+const root=document.documentElement;
+try{const t=localStorage.getItem('theme');if(t)root.dataset.theme=t;else if(matchMedia('(prefers-color-scheme:dark)').matches)root.dataset.theme='dark'}catch(e){}
+$('#theme').onclick=()=>{const n=root.dataset.theme==='dark'?'light':'dark';root.dataset.theme=n;try{localStorage.setItem('theme',n)}catch(e){}};
+// mobile menu
+const nav=$('#nav'),mb=$('#menu');
+mb.onclick=()=>{const o=nav.classList.toggle('open');mb.setAttribute('aria-expanded',o)};
+nav.addEventListener('click',e=>{if(e.target.tagName==='A'){nav.classList.remove('open');mb.setAttribute('aria-expanded',false)}});
+// progress
+addEventListener('scroll',()=>{const h=document.documentElement;$('#progress').style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%'},{passive:true});
+// reveal + active nav
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
+$$('.reveal').forEach(el=>io.observe(el));
+const links=$$('nav a'),so=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)links.forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+e.target.id))}),{rootMargin:'-45% 0px -50% 0px'});
+$$('main section[id]').forEach(s=>so.observe(s));
+// OCR demo
+const enRaw='The <b class="bad">Hause</b> resumed <b class="bad">discussien</b> on the <b class="bad">bUdget</b> for <b class="bad">tbe</b> year.';
+const enFix='The <b class="ok">House</b> resumed <b class="ok">discussion</b> on the <b class="ok">budget</b> for <b class="ok">the</b> year.';
+const hiRaw='विधान सभा की <b class="bad">कायवाही</b>';
+const hiFix='विधान सभा की <b class="ok">कार्यवाही</b>';
+function view(fix){
+  $('#en').innerHTML=fix?enFix:enRaw;$('#hi').innerHTML=fix?hiFix:hiRaw;
+  $('#vRaw').setAttribute('aria-pressed',!fix);$('#vFix').setAttribute('aria-pressed',fix);
+  $('#cap').textContent=fix?'Highlighted words were repaired. This is the kind of noise my retrieval work is built to survive.':'Underlined words are typical OCR errors from degraded scans.';
 }
-
-// Scroll reveal
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if(e.isIntersecting){
-      e.target.classList.add('visible');
-    }
-  });
-}, {threshold: 0.12});
-document.querySelectorAll('.reveal, .exp-item').forEach(el => observer.observe(el));
-
-// Stagger project cards
-document.querySelectorAll('.project-card').forEach((card, i) => {
-  card.style.transitionDelay = `${i * 0.1}s`;
-  card.classList.add('reveal');
-  observer.observe(card);
-});
+$('#vRaw').onclick=()=>view(false);$('#vFix').onclick=()=>view(true);view(false);
+// projects
+$$('.proj>button').forEach(b=>b.onclick=()=>{const o=b.getAttribute('aria-expanded')==='true';b.setAttribute('aria-expanded',!o);b.nextElementSibling.classList.toggle('open',!o)});
+$$('.chip').forEach(c=>c.onclick=()=>{$$('.chip').forEach(x=>x.setAttribute('aria-pressed',x===c));$$('.proj').forEach(p=>p.hidden=c.dataset.f!=='all'&&p.dataset.c!==c.dataset.f)});
+// copy email
+$('#copy').onclick=async()=>{const m='radhakrishnadeshpande@gmail.com';try{await navigator.clipboard.writeText(m);$('#msg').textContent='Copied '+m}catch(e){$('#msg').textContent='Copy failed. My email is '+m}};
 </script>
 </body>
 </html>
